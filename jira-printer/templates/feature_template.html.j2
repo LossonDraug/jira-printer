@@ -4,7 +4,7 @@
 text-overflow: ellipsis; border:1px solid black; padding: 20px 20px 20px 20px; font-family:verdana; font-style: normal;">
         <table style="width: 100%; font-family:verdana; font-style: normal;">
             <tr>
-              <th style="text-align: left"><img src="../icons/{{ card["Issue Type"] }}.png" alt="{{ card["Issue Type"] }}""> </th>
+              <th style="text-align: left"><img src="{{ path }}{{ card["Issue Type"] }}.png" alt="{{ card["Issue Type"] }}""> </th>
               <th style="text-align: left">{{ card["Epic Link Summary"] }}</th>
               <th style="text-align: right">{{ card["Issue key"] }}</th>
             </tr>
@@ -14,7 +14,7 @@ text-overflow: ellipsis; border:1px solid black; padding: 20px 20px 20px 20px; f
 
           <table style="width: 100%; font-family:verdana; font-style: normal;">
             <tr>
-              <th style="text-align: left"><img src="../icons/{{ card["Priority"] }}.png" alt="Priority {{ card["Priority"] }}""></th>
+              <th style="text-align: left"><img src="{{ path }}{{ card["Priority"] }}.png" alt="Priority {{ card["Priority"] }}""></th>
               <th style="text-align: left">{{ card["Status"] }}</th>
               <th style="text-align: left", width="120px">SP: {{ card["Custom field (Story Points)"] }}</th>
             </tr>
