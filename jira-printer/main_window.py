@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QDesktopWidget, QFileDialog, QPushButton, QVBoxLayout, QHBoxLayout, \
-    QLineEdit, QMessageBox
+    QLineEdit, QMessageBox, QMainWindow, QStatusBar
 
 from cards_utils import process_file
 
@@ -7,7 +7,8 @@ from cards_utils import process_file
 WARNING = QMessageBox.Warning
 CRITICAL = QMessageBox.Critical
 
-class App(QWidget):
+
+class App(QMainWindow):
     def __init__(self):
         super().__init__()
 
@@ -19,8 +20,11 @@ class App(QWidget):
         self.title = "Welcome to Jira Printer!"
 
         # elements to use globally
+        self.central_widget = None
         self.opened_file_textbox = None
         self.save_file_textbox = None
+        self.status_bar = None
+        self.status = None
 
         # initiate UI
         self.init_ui()
@@ -30,8 +34,11 @@ class App(QWidget):
         self.setGeometry(self.left, self.top, self.width, self.height)
 
         # initialize global elements
+        self.central_widget = QWidget()
         self.opened_file_textbox = self.read_only_textbox()
         self.save_file_textbox = self.read_only_textbox()
+        self.status_bar = self.main_status_bar()
+        self.status = self.status_label()
 
         # manage layouts
         main_layout = QVBoxLayout()
@@ -40,8 +47,13 @@ class App(QWidget):
         main_layout.addWidget(self.horizontal_widget(self.name_to_save_file_button(), self.save_file_textbox))
         main_layout.addWidget(self.horizontal_widget(self.save_button()))
         main_layout.addWidget(self.horizontal_widget())
-        self.setLayout(main_layout)
+        self.central_widget.setLayout(main_layout)
 
+        self.setStatusBar(self.status_bar)
+        self.status_bar.addWidget(self.status)
+        self.status.setText("Ready!")
+
+        self.setCentralWidget(self.central_widget)
         self.center_window(self)
         self.show()
 
@@ -83,6 +95,7 @@ class App(QWidget):
 
     def save_button(self):
         button = QPushButton("Process", self)
+        button.setFixedHeight(50)
         button.setToolTip("Save the processed files")
         button.clicked.connect(self.process_and_save_file)
         return button
@@ -120,16 +133,30 @@ class App(QWidget):
         self.center_window(box)
         return box
 
+    # Status Bar Elements
+    def main_status_bar(self):
+        status_bar = QStatusBar()
+        return status_bar
+
+    def status_label(self):
+        return QLabel()
+
     # UI Logic
     def process_and_save_file(self):
+        self.status.setText("Working...")
+
         input_file = self.opened_file_textbox.text()
         output_file = self.save_file_textbox.text()
 
         if input_file == '':
             self.message_box("Warning", "No file to process!", WARNING).exec_()
+            self.status.setText("Aborted")
         elif output_file == '':
             self.message_box("Warning", "No destination to save!", WARNING).exec_()
+            self.status.setText("Aborted")
         else:
             outcome = process_file(input_file, output_file)
+            self.status.setText("Saved!")
             if outcome:
                 self.message_box("Critical", outcome, CRITICAL).exec_()
+                self.status.setText("Aborted")
