@@ -19,7 +19,7 @@ Jira Cards is a straight forward program that processes a .csv full export file 
 
 ### Installing
 
-* Ready to download .exe files can be found in releases
+* Ready to download .exe files can be found in releases (only for windows 11. I don't know if it works on other OS's. Please check [Creating a one-file .exe](#creating-a-one-file-exe).)
 * Source code is available in the current repo
 * For those who want to modificate the program and be able to create a single file runnable, there is a .spec file for pyinstaller.
 
@@ -39,6 +39,7 @@ python -m jira_printer
 ```
 pyinstaller jira-printer.spec
 ```
+**P.S.: the version you create with this command is only for the OS you are working on!**
 
 ## Help
 
