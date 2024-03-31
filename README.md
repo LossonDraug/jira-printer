@@ -22,10 +22,19 @@ Jira Cards is a straight forward program that processes a .csv full export file 
 
 ### Executing program
 
-* install dependencies
+* install requirements
 * run
 ```
 python -m jira_printer
+```
+
+### Creating a one-file .exe
+
+* install requirements
+* install pyinstaller 6.5.0
+* run
+```
+pyinstaller jira-printer.spec
 ```
 
 ## Help
