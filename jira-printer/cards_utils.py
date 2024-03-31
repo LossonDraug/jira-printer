@@ -5,10 +5,11 @@ import traceback
 
 import jinja2
 
-from card import Cards
+from .card import Cards
 
 STORY_TEMPLATE_FILE = "card_template.html.j2"
 FEATURE_TEMPLATE_FILE = "feature_template.html.j2"
+JIRA_PRINTER_DIR = "jira-printer"
 
 
 def process_file(raw_jira_issues: str, name_to_save: str):
@@ -38,11 +39,17 @@ def _read_cards(file_name: str):
 
 def _render_cards(jira_cards: list, template: str):
     current_working_directory = os.getcwd()
-    print(current_working_directory)
-    template_loader = jinja2.FileSystemLoader(searchpath=_resource_path("templates/"))
+    template_loader = jinja2.FileSystemLoader(searchpath=_relative_path("templates/"))
     template_env = jinja2.Environment(loader=template_loader)
     template = template_env.get_template(template)
-    return template.render(cards=jira_cards, path=_resource_path("icons/"))
+    return template.render(cards=jira_cards, path=_relative_path("icons/"))
+
+
+def _relative_path(path):
+    if os.path.isdir(JIRA_PRINTER_DIR):
+        return _resource_path(os.path.join(JIRA_PRINTER_DIR, path))
+    else:
+        return _resource_path(path)
 
 
 def _resource_path(relative_path):

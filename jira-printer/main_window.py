@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QDesktopWidget, QFileDialog, QPushButton, QVBoxLayout, QHBoxLayout, \
     QLineEdit, QMessageBox, QMainWindow, QStatusBar
 
-from cards_utils import process_file
+from .cards_utils import process_file
 
 
 WARNING = QMessageBox.Warning
