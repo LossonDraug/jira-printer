@@ -2,6 +2,9 @@
 
 A small program to print beautiful Jira tickets.
 
+<img src="https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue"/>
+<img src="https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&amp;logo=Jira&amp;logoColor=white"/>
+
 ## Description
 
 This project was inspired by searching for printing possibilities of Jira tickets for PI Planning.
