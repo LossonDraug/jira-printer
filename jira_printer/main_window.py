@@ -1,20 +1,17 @@
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QWidget, QLabel, QDesktopWidget, QFileDialog, QPushButton, QVBoxLayout, QHBoxLayout, \
-    QLineEdit, QMessageBox, QMainWindow, QStatusBar
+import sys
 
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QWidget, QLabel, QFileDialog, QPushButton, QVBoxLayout, QHBoxLayout, \
+    QLineEdit, QMessageBox, QMainWindow, QStatusBar, QAction
+
+from . import about
 from .cards_utils import process_file
 from .path_utils import relative_path
+from .gui_utils import center_window
 
 
 WARNING = QMessageBox.Warning
 CRITICAL = QMessageBox.Critical
-
-
-def center_window(widget):
-    widget_frame = widget.frameGeometry()
-    center_point = QDesktopWidget().availableGeometry().center()
-    widget_frame.moveCenter(center_point)
-    widget.move(widget_frame.topLeft())
 
 
 class App(QMainWindow):
@@ -34,6 +31,7 @@ class App(QMainWindow):
         self.save_file_textbox = None
         self.status_bar = None
         self.status = None
+        self.about_window = about.About()
 
         # initiate UI
         self.init_ui()
@@ -47,7 +45,6 @@ class App(QMainWindow):
         self.opened_file_textbox = self.read_only_textbox()
         self.save_file_textbox = self.read_only_textbox()
         self.status_bar = self.main_status_bar()
-        self.status = self.status_label()
 
         # manage layouts
         main_layout = QVBoxLayout()
@@ -58,9 +55,14 @@ class App(QMainWindow):
         main_layout.addWidget(self.horizontal_widget())
         self.central_widget.setLayout(main_layout)
 
+        show_about = QAction(QIcon(relative_path("icons//info.png")), "&About", self)
+        show_about.triggered.connect(self.about)
+
+        info_menu = self.menuBar().addMenu("&About")
+        info_menu.addAction(show_about)
+
         self.setStatusBar(self.status_bar)
-        self.status_bar.addWidget(self.status)
-        self.status.setText("Ready!")
+        self.status_bar.showMessage("Ready!")
 
         self.setCentralWidget(self.central_widget)
         center_window(self)
@@ -136,30 +138,31 @@ class App(QMainWindow):
         center_window(box)
         return box
 
+    def about(self):
+        center_window(self.about_window)
+        self.about_window.show()
+
     # Status Bar Elements
     def main_status_bar(self):
         status_bar = QStatusBar()
         return status_bar
 
-    def status_label(self):
-        return QLabel()
-
     # UI Logic
     def process_and_save_file(self):
-        self.status.setText("Working...")
+        self.status_bar.showMessage("Working...")
 
         input_file = self.opened_file_textbox.text()
         output_file = self.save_file_textbox.text()
 
         if input_file == '':
             self.message_box("Warning", "No file to process!", WARNING).exec_()
-            self.status.setText("Aborted")
+            self.status_bar.showMessage("Aborted!")
         elif output_file == '':
             self.message_box("Warning", "No destination to save!", WARNING).exec_()
-            self.status.setText("Aborted")
+            self.status_bar.showMessage("Aborted!")
         else:
             outcome = process_file(input_file, output_file)
-            self.status.setText("Saved!")
+            self.status_bar.showMessage("Working...")
             if outcome:
                 self.message_box("Critical", outcome, CRITICAL).exec_()
-                self.status.setText("Aborted")
+                self.status_bar.showMessage("Aborted!")
