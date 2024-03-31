@@ -1,11 +1,20 @@
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget, QLabel, QDesktopWidget, QFileDialog, QPushButton, QVBoxLayout, QHBoxLayout, \
     QLineEdit, QMessageBox, QMainWindow, QStatusBar
 
 from .cards_utils import process_file
+from .path_utils import relative_path
 
 
 WARNING = QMessageBox.Warning
 CRITICAL = QMessageBox.Critical
+
+
+def center_window(widget):
+    widget_frame = widget.frameGeometry()
+    center_point = QDesktopWidget().availableGeometry().center()
+    widget_frame.moveCenter(center_point)
+    widget.move(widget_frame.topLeft())
 
 
 class App(QMainWindow):
@@ -54,15 +63,11 @@ class App(QMainWindow):
         self.status.setText("Ready!")
 
         self.setCentralWidget(self.central_widget)
-        self.center_window(self)
+        center_window(self)
+        self.setWindowIcon(QIcon(relative_path('icons/jira-printer-logo-transparent.png')))
         self.show()
 
     # Util functions
-    def center_window(self, widget):
-        widget_frame = widget.frameGeometry()
-        center_point = QDesktopWidget().availableGeometry().center()
-        widget_frame.moveCenter(center_point)
-        widget.move(widget_frame.topLeft())
 
     def horizontal_widget(self, *args):
         horizontal_widget = QWidget(self)
@@ -130,7 +135,7 @@ class App(QMainWindow):
         box.setIcon(type)
         box.setWindowTitle(title)
         box.setText(text)
-        self.center_window(box)
+        center_window(box)
         return box
 
     # Status Bar Elements

@@ -1,7 +1,7 @@
 import os
 import sys
 
-JIRA_PRINTER_DIR = "jira-printer"
+JIRA_PRINTER_DIR = "jira_printer"
 
 
 def relative_path(path):

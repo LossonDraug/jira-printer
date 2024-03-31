@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="64"
+   height="64"
+   viewBox="0 0 16.933333 16.933333"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   sodipodi:docname="jira-printer-logo.svg"
+   inkscape:export-filename="jira-printer-logo-transparent.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="8"
+     inkscape:cx="15.5625"
+     inkscape:cy="34.125"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="1592"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g2469" />
+  <defs
+     id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient1572">
+      <stop
+         style="stop-color:#008eff;stop-opacity:1;"
+         offset="0.43768117"
+         id="stop1568" />
+      <stop
+         style="stop-color:#8fe966;stop-opacity:1;"
+         offset="0.73913044"
+         id="stop1570" />
+    </linearGradient>
+    <inkscape:path-effect
+       effect="fill_between_many"
+       method="originald"
+       linkedpaths="#path341,0,1|#path135,0,1"
+       id="path-effect1534" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1572"
+       id="linearGradient1590"
+       x1="1.8871914"
+       y1="8.3166613"
+       x2="15.716312"
+       y2="8.3166613"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Ebene 2">
+    <rect
+       style="display:none;fill:#ffffff;stroke:#000000;stroke-width:0.765;stroke-dasharray:none"
+       id="rect2540"
+       width="24.870832"
+       height="22.059635"
+       x="-4.8286457"
+       y="-2.4804688" />
+  </g>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g2469"
+       transform="translate(-0.16536458,0.03307292)">
+      <path
+         id="path135"
+         style="fill:url(#linearGradient1590);fill-opacity:1;stroke:#000000;stroke-width:0.779;stroke-dasharray:none"
+         d="M 11.740369 2.3042521 C 11.635195 2.3042521 2.1414713 2.3047689 2.1414713 2.3047689 L 3.4499186 4.8901408 L 7.8636027 4.8901408 L 7.8636027 9.9663167 C 7.8636027 11.598639 7.7037576 11.742054 6.8218058 11.749154 C 6.5023585 11.751754 4.8625847 11.749154 4.6493286 11.749154 C 4.4360736 11.749154 4.4581258 10.488765 4.4581258 10.488765 L 1.8954915 10.488765 C 1.8954915 10.488765 1.8837493 13.271546 1.9750732 13.588318 C 2.1908968 14.336939 2.7145629 14.325741 2.7145629 14.325741 C 2.7145629 14.325741 9.0411394 14.330624 9.2516316 14.328324 C 11.076614 14.308132 10.815877 12.269019 10.815877 12.269019 L 10.833447 9.8810506 L 11.740369 9.8810506 C 16.512175 9.8810506 16.370577 8.3406998 16.370577 6.1246908 C 16.370577 3.8475224 16.42483 2.3042521 11.740369 2.3042521 z M 10.821562 4.8715373 L 11.161593 4.8715373 C 11.867299 4.8715373 14.237374 4.9167617 14.237374 6.1246908 C 14.237374 7.4290718 11.883461 7.3835286 11.161593 7.3835286 C 11.029345 7.3835286 10.821562 7.3855957 10.821562 7.3855957 L 10.821562 4.8715373 z "
+         transform="translate(-0.52916663)" />
+    </g>
+  </g>
+</svg>
