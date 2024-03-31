@@ -44,6 +44,10 @@ pyinstaller jira-printer.spec
 
 If you need any help with a program, open a new discussion.
 
+## If you are a developer
+
+Please read README.md in jira_printer package.
+
 ## Authors
 
 Anna Tsarenko
