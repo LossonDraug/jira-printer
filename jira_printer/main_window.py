@@ -114,7 +114,6 @@ class App(QMainWindow):
     # Dialogs
     def open_file_name_dialog(self):
         options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
         file_name, _ = QFileDialog.getOpenFileName(self, "Choose a file", "",
                                                    "CSV (*.csv)", options=options)
         if file_name:
@@ -122,7 +121,6 @@ class App(QMainWindow):
 
     def save_file_dialog(self):
         options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
         file_name, _ = QFileDialog.getSaveFileName(self, "Save Cards", "",
                                                    "HTML Files (*.html)", options=options)
         if file_name:
