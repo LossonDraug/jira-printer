@@ -8,8 +8,8 @@ A small program to print beautiful Jira tickets.
 ## Description
 
 This project was inspired by searching for printing possibilities of Jira tickets for PI Planning.
-At the time being, Jira plugins that produce beautiful Jira cards are very expensive and those plugins that are free are not that appealing, I have come to an idea to create my own program for these needs.
-Jira Cards is a straight forward program that processes a .csv full export file from Jira into some beautiful cards ready to be printed.
+At the time being, Jira plugins that produce beautiful Jira cards are very expensive and those plugins that are free are not that appealing, so I have come to an idea to create my own program for these needs.
+Jira Cards is a straight forward program that processes a .csv full export file from Jira into some beautiful cards ready to be printed and tossed across that PI Planning board!
 
 ## Getting Started
 
