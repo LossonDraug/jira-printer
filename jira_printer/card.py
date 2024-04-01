@@ -32,5 +32,3 @@ class Cards:
             self.feature_cards.append(card)
         else:
             self.story_cards.append(card)
-
-

@@ -3,7 +3,7 @@ from PyQt5.QtGui import QIcon, QPalette, QColor, QLinearGradient, QBrush, QFont
 from PyQt5.QtCore import pyqtSignal, QObject, Qt
 
 from jira_printer import info
-from jira_printer.path_utils import relative_path
+from jira_printer.path_utils import get_relative_path
 from jira_printer import constants as c
 
 
@@ -26,7 +26,7 @@ class About(QWidget):
         self.setFixedSize(self.width, self.height)
         self.c = Communicate()
         self.c.closeApp.connect(self.close)
-        self.setWindowIcon(QIcon(relative_path(c.icon)))
+        self.setWindowIcon(QIcon(get_relative_path(c.icon)))
         self.setWindowTitle(self.title)
         self.resize(self.width, self.height)
         self.setAutoFillBackground(True)

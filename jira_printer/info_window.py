@@ -1,13 +1,13 @@
 from PyQt5.QtWidgets import QWidget, QMessageBox
 
 from jira_printer.gui_utils import get_icon
-from jira_printer.path_utils import relative_path
+from jira_printer.path_utils import get_relative_path
 
 
 class Info(QMessageBox):
     def __init__(self, parent, file):
         super().__init__(parent)
-        self.info_txt = open(relative_path(file), "r")
+        self.info_txt = open(get_relative_path(file), "r")
         self.width = 300
         self.height = 400
         self.init_ui()

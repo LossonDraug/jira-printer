@@ -9,8 +9,7 @@ from PyQt5.QtWidgets import QWidget, QLabel, QFileDialog, QPushButton, QVBoxLayo
 
 from jira_printer import about, info_window
 from jira_printer.Worker import Worker
-from jira_printer.cards_utils import process_file
-from jira_printer.path_utils import relative_path
+from jira_printer.path_utils import get_relative_path
 from jira_printer.gui_utils import center_window, get_icon, message_box
 from jira_printer import constants as c
 
@@ -93,7 +92,7 @@ class App(QMainWindow):
         export.setStatusTip("Export Jira Cards")
 
         help_file = QAction(get_icon("icons/help.png"), "&Help", self)
-        help_file.triggered.connect(lambda event: self.show_file(relative_path("files/Jira_Printer_help.pdf")))
+        help_file.triggered.connect(lambda event: self.show_file(get_relative_path("files/Jira_Printer_help.pdf")))
         help_file.setShortcut('Ctrl+H')
         help_file.setStatusTip("I need help!")
 
@@ -144,13 +143,11 @@ class App(QMainWindow):
         self.progress_bar.setHidden(True)
 
         # Threading
-        # self.thread.finished.connect(self.after_export)
-        # self.thread.terminated.connect()
         self.thread.output[str].connect(self.after_export)
 
         self.setCentralWidget(self.central_widget)
         center_window(self)
-        self.setWindowIcon(QIcon(relative_path(c.icon)))
+        self.setWindowIcon(QIcon(get_relative_path(c.icon)))
         self.show()
 
     # Util functions
@@ -252,21 +249,20 @@ class App(QMainWindow):
 
     # UI Logic
     def process_and_save_file(self):
-        self.status_bar.showMessage("Working...")
-        self.progress_bar.setHidden(False)
-
         input_file = self.opened_file_textbox.text()
         output_file = self.save_as_name
 
         if input_file == '':
-            message_box("Warning", "No file to process!", WARNING).exec_()
+            message_box("Warning", "No file to process!", WARNING, self).exec_()
             self.status_bar.showMessage("Aborted!")
             self.progress_bar.setHidden(True)
         elif output_file == '':
-            message_box("Warning", "No destination to save!", WARNING).exec_()
+            message_box("Warning", "No destination to save!", WARNING, self).exec_()
             self.status_bar.showMessage("Aborted!")
             self.progress_bar.setHidden(True)
         else:
+            self.status_bar.showMessage("Working...")
+            self.progress_bar.setHidden(False)
             self.export_button.setEnabled(False)
             self.thread.process_cards(input_file, output_file)
 
@@ -274,7 +270,7 @@ class App(QMainWindow):
         self.export_button.setEnabled(True)
         self.progress_bar.setHidden(True)
         if outcome:
-            message_box("Critical", outcome, CRITICAL).exec_()
+            message_box("Critical", outcome, CRITICAL, self).exec_()
             self.status_bar.showMessage("Aborted!")
             return
         if self.show_files_checkbox.isChecked():
@@ -289,7 +285,7 @@ class App(QMainWindow):
             path = "C:/Program Files/internet explorer/iexplore.exe %s"
             if not webbrowser.get(path).open(url, new=new):
                 message_box("Error", "Unknown Error has occurred. The program cannot show the file in Webbrowser."
-                                     "Please, open the corresponding file manually.", CRITICAL)
+                                     "Please, open the corresponding file manually.", CRITICAL, self)
 
     def process_name(self, path: str, suffix: str):
         return path.replace(".html", '') + "_" + suffix + ".html"

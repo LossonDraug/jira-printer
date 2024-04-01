@@ -4,7 +4,7 @@ import sys
 JIRA_PRINTER_DIR = "jira_printer"
 
 
-def relative_path(path):
+def get_relative_path(path):
     if os.path.isdir(JIRA_PRINTER_DIR):
         return _resource_path(os.path.join(JIRA_PRINTER_DIR, path))
     else:

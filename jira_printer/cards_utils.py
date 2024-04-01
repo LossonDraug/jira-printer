@@ -3,8 +3,8 @@ import traceback
 
 import jinja2
 
-from .card import Cards
-from .path_utils import relative_path
+from jira_printer.card import Cards
+from jira_printer.path_utils import get_relative_path
 
 STORY_TEMPLATE_FILE = "card_template.html.j2"
 FEATURE_TEMPLATE_FILE = "feature_template.html.j2"
@@ -37,7 +37,7 @@ def _read_cards(file_name: str):
 
 
 def _render_cards(jira_cards: list, template: str):
-    template_loader = jinja2.FileSystemLoader(searchpath=relative_path("templates/"))
+    template_loader = jinja2.FileSystemLoader(searchpath=get_relative_path("templates/"))
     template_env = jinja2.Environment(loader=template_loader)
     template = template_env.get_template(template)
-    return template.render(cards=jira_cards, path=relative_path("icons/"))
+    return template.render(cards=jira_cards, path=get_relative_path("icons/"))
