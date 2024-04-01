@@ -5,7 +5,7 @@ import webbrowser
 from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget, QLabel, QFileDialog, QPushButton, QVBoxLayout, QHBoxLayout, \
-    QLineEdit, QMessageBox, QMainWindow, QStatusBar, QAction, QProgressBar, QSizePolicy, QTextEdit
+    QLineEdit, QMessageBox, QMainWindow, QStatusBar, QAction, QProgressBar, QSizePolicy, QTextEdit, QCheckBox
 
 from jira_printer import about, info_window
 from jira_printer.cards_utils import process_file
@@ -33,9 +33,10 @@ class App(QMainWindow):
         # elements to use globally
         self.central_widget = None
         self.opened_file_textbox = None
-        self.save_stories_textbox = None
+        self.names_for_save = None
         self.status_bar = None
         self.status = None
+        self.show_files_checkbox = None
         self.about_window = about.About()
         self.info_window = info_window.Info(self)
         self.save_as_name = ""
@@ -53,15 +54,20 @@ class App(QMainWindow):
         # initialize global elements
         self.central_widget = QWidget()
         self.opened_file_textbox = self.read_only_textbox()
-        self.save_stories_textbox = self.read_only_multiline_textbox(3)
+        self.names_for_save = self.read_only_multiline_textbox(3)
+        self.names_for_save.setText("Stores: \nEpics:")
         self.status_bar = self.main_status_bar()
+        self.show_files_checkbox = QCheckBox(self)
+        self.show_files_checkbox.setText("Open files after export")
+        self.show_files_checkbox.setChecked(True)
 
         # manage layouts
         main_layout = QVBoxLayout()
         main_layout.addWidget(self.horizontal_widget(self.instruction_label()))
         main_layout.addWidget(self.horizontal_widget(self.open_file_button(), self.opened_file_textbox))
-        main_layout.addWidget(self.horizontal_widget(self.name_to_save_file_button(), self.save_stories_textbox))
-        main_layout.addWidget(self.horizontal_widget(self.save_button()))
+        main_layout.addWidget(self.horizontal_widget(self.name_to_save_file_button(), self.names_for_save))
+        main_layout.addWidget(self.horizontal_widget(self.show_files_checkbox))
+        main_layout.addWidget(self.horizontal_widget(self.export_button()))
         main_layout.addWidget(self.horizontal_widget())
         self.central_widget.setLayout(main_layout)
 
@@ -70,7 +76,7 @@ class App(QMainWindow):
         open_file.triggered.connect(self.open_file_name_dialog)
         open_file.setStatusTip("Select file to process")
 
-        save_as = QAction(get_icon("icons/save_as.png"), "&Save as", self)
+        save_as = QAction(get_icon("icons/save_as.png"), "&Name to save", self)
         save_as.triggered.connect(self.save_file_dialog)
         save_as.setStatusTip("Select the name for saving")
 
@@ -148,12 +154,12 @@ class App(QMainWindow):
         return button
 
     def name_to_save_file_button(self):
-        button = QPushButton("Save as", self)
+        button = QPushButton("Name to save", self)
         button.setToolTip("Choose how to save the file")
         button.clicked.connect(self.save_file_dialog)
         return button
 
-    def save_button(self):
+    def export_button(self):
         button = QPushButton("Export", self)
         button.setFixedHeight(50)
         button.setToolTip("Save the processed files")
@@ -186,8 +192,8 @@ class App(QMainWindow):
                                                    "HTML Files (*.html)", options=options)
         if file_name:
             self.save_as_name = file_name
-            self.save_stories_textbox.setText("Stories: " + self.process_name(file_name, "stories") + "\n"
-                                              + "Epics:    " + self.process_name(file_name, "epics"))
+            self.names_for_save.setText("Stories: " + self.process_name(file_name, "stories") + "\n"
+                                        + "Epics:    " + self.process_name(file_name, "epics"))
 
     # Popups
     def about(self):
@@ -235,6 +241,9 @@ class App(QMainWindow):
             outcome = process_file(input_file, output_file)
             self.status_bar.showMessage("Saved!")
             self.progress_bar.setHidden(True)
+            if self.show_files_checkbox.isChecked():
+                self.show_file(self.process_name(self.save_as_name, "stories"))
+                self.show_file(self.process_name(self.save_as_name, "epics"))
             if outcome:
                 message_box("Critical", outcome, CRITICAL).exec_()
                 self.status_bar.showMessage("Aborted!")
