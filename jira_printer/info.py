@@ -19,3 +19,11 @@ def get_moto():
 
 def get_licence():
     return "GPL 3.0"
+
+
+def get_year():
+    return "2024"
+
+
+def get_version():
+    return "0.1"

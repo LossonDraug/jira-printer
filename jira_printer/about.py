@@ -44,14 +44,14 @@ class About(QWidget):
         font = QFont('Monospace')
         font.setStyleHint(QFont.TypeWriter)
         label.setFont(font)
-        name = QLabel("Jira Printer", self)
+        name = QLabel("Jira Printer v." + info.get_version(), self)
         moto = QLabel(info.get_moto(), self)
         try:
-            copyright_label = QLabel(("© {}".format(info.get_author())), self)
+            copyright_label = QLabel(("© {}".format(info.get_author()) + " " + info.get_year()), self)
         except Exception:
-            copyright_label = QLabel(("(c) {}".format(info.get_author())), self)
+            copyright_label = QLabel(("(c) {}".format(info.get_author()) + " " + info.get_year()), self)
 
-        git_hub = QLabel("https://github.com/LossonDraug/jira-printer", self)
+        git_hub = QLabel("<a href=\"https://github.com/LossonDraug/jira-printer\">Jira Printer on GitHub</a>", self)
         git_hub.setOpenExternalLinks(True)
 
         main_layout = QVBoxLayout()
