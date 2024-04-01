@@ -3,9 +3,9 @@ import sys
 import webbrowser
 
 from PyQt5.QtCore import QSize
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QKeySequence
 from PyQt5.QtWidgets import QWidget, QLabel, QFileDialog, QPushButton, QVBoxLayout, QHBoxLayout, \
-    QLineEdit, QMessageBox, QMainWindow, QStatusBar, QAction, QProgressBar, QSizePolicy, QTextEdit, QCheckBox
+    QLineEdit, QMessageBox, QMainWindow, QStatusBar, QAction, QProgressBar, QSizePolicy, QTextEdit, QCheckBox, QShortcut
 
 from jira_printer import about, info_window
 from jira_printer.Worker import Worker
@@ -40,7 +40,8 @@ class App(QMainWindow):
         self.status = None
         self.show_files_checkbox = None
         self.about_window = about.About()
-        self.info_window = info_window.Info(self)
+        self.info_window = info_window.Info(self, "files/info.txt")
+        self.shortcuts_window = info_window.Info(self, "files/shortcuts.txt")
         self.save_as_name = ""
         self.export_button = self.export_button()
 
@@ -53,6 +54,7 @@ class App(QMainWindow):
 
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
+        self.setFixedSize(self.width, self.height)
 
         # initialize global elements
         self.central_widget = QWidget()
@@ -77,31 +79,44 @@ class App(QMainWindow):
         # Actions
         open_file = QAction(get_icon("icons/open.png"), "&Open File", self)
         open_file.triggered.connect(self.open_file_name_dialog)
+        open_file.setShortcut('Ctrl+O')
         open_file.setStatusTip("Select file to process")
 
         save_as = QAction(get_icon("icons/save_as.png"), "&Name to save", self)
         save_as.triggered.connect(self.save_file_dialog)
+        save_as.setShortcut('Ctrl+F')
         save_as.setStatusTip("Select the name for saving")
 
         export = QAction(get_icon("icons/export.png"), "&Export", self)
         export.triggered.connect(self.process_and_save_file)
+        export.setShortcut('Ctrl+S')
         export.setStatusTip("Export Jira Cards")
 
         help_file = QAction(get_icon("icons/help.png"), "&Help", self)
         help_file.triggered.connect(lambda event: self.show_file(relative_path("files/Jira_Printer_help.pdf")))
+        help_file.setShortcut('Ctrl+H')
         help_file.setStatusTip("I need help!")
 
         info = QAction(get_icon("icons/info.png"), "&Info", self)
-        info.triggered.connect(self.show_info)
+        info.triggered.connect(lambda event: self.show_info(self.info_window))
         info.setStatusTip("Show info and licenses")
 
         show_about = QAction(get_icon(c.icon), "&About", self)
         show_about.triggered.connect(self.about)
         show_about.setStatusTip("About this program")
 
+        show_shortcuts = QAction(get_icon("icons/keyboard.png"), "&Shortcuts", self)
+        show_shortcuts.triggered.connect(lambda event: self.show_info(self.shortcuts_window))
+        show_shortcuts.setShortcut('Ctrl+K')
+        show_shortcuts.setStatusTip("Show shortcuts map")
+
         exit_action = QAction(get_icon("icons/exit.png"), "&Exit", self)
         exit_action.triggered.connect(sys.exit)
+        exit_action.setShortcut('Ctrl+Q')
         exit_action.setStatusTip("Exit the program")
+
+        check_open_files = QShortcut(QKeySequence('Ctrl+N'), self)
+        check_open_files.activated.connect(self.check_change)
 
         # Menubar
         info_menu = self.menuBar().addMenu("&About")
@@ -116,6 +131,7 @@ class App(QMainWindow):
         self.toolbar.addAction(save_as)
         self.toolbar.addAction(export)
         self.toolbar.addWidget(self.spacer())
+        self.toolbar.addAction(show_shortcuts)
         self.toolbar.addAction(help_file)
         self.toolbar.addAction(exit_action)
 
@@ -175,6 +191,10 @@ class App(QMainWindow):
         button.clicked.connect(self.process_and_save_file)
         return button
 
+    def check_change(self):
+        check = self.show_files_checkbox.isChecked()
+        self.show_files_checkbox.setChecked(not check)
+
     # Text boxes
     def read_only_textbox(self):
         textbox = QLineEdit(self)
@@ -209,9 +229,9 @@ class App(QMainWindow):
         center_window(self.about_window)
         self.about_window.show()
 
-    def show_info(self):
-        center_window(self.info_window)
-        self.info_window.show()
+    def show_info(self, window):
+        center_window(window)
+        window.show()
 
     # Status Bar and Tool Bar Elements
     def main_status_bar(self):

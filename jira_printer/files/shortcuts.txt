@@ -1,0 +1,8 @@
+  Below you can see which shortcuts are implemented in this program.
+Open File: Ctrl+O
+Choose file name to save: Ctrl+F
+Export: Ctrl+S
+(Un)check open files after export: Ctrl+N
+Open help: Ctrl+H
+Open shortcut window: Ctrl+K
+Exit: Ctrl+Q
