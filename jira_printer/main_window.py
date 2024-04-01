@@ -143,7 +143,8 @@ class App(QMainWindow):
         instructions.setWordWrap(True)
         instructions.setGeometry(20, 20, 560, 200)
         instructions.setText("Please choose a csv file with exported Jira Issues you want to print. "
-                             "Do not use label filtering.")
+                             "Use option \"Export CSV (all fields)\" in Jira.\n"
+                             "If you have problems exporting Jira Issues open help file using button with \"?\" in the panel above.")
         return instructions
 
     # Buttons
