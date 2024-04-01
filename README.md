@@ -45,6 +45,10 @@ pyinstaller jira-printer.spec
 
 If you need any help with a program, open a new discussion.
 
+## I want a new feature!
+
+If you want to request a feature, open a new discussion in "Ideas" section!
+
 ## If you are a developer
 
 Please read README.md in jira_printer package.
