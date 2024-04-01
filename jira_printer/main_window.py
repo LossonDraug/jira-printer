@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import QWidget, QLabel, QFileDialog, QPushButton, QVBoxLayo
     QLineEdit, QMessageBox, QMainWindow, QStatusBar, QAction, QProgressBar, QSizePolicy, QTextEdit, QCheckBox
 
 from jira_printer import about, info_window
+from jira_printer.Worker import Worker
 from jira_printer.cards_utils import process_file
 from jira_printer.path_utils import relative_path
 from jira_printer.gui_utils import center_window, get_icon, message_box
@@ -29,6 +30,7 @@ class App(QMainWindow):
         self.left = 10
         self.top = 10
         self.title = "Welcome to Jira Printer!"
+        self.thread = Worker()
 
         # elements to use globally
         self.central_widget = None
@@ -40,6 +42,7 @@ class App(QMainWindow):
         self.about_window = about.About()
         self.info_window = info_window.Info(self)
         self.save_as_name = ""
+        self.export_button = self.export_button()
 
         # initiate UI
         self.init_ui()
@@ -67,7 +70,7 @@ class App(QMainWindow):
         main_layout.addWidget(self.horizontal_widget(self.open_file_button(), self.opened_file_textbox))
         main_layout.addWidget(self.horizontal_widget(self.name_to_save_file_button(), self.names_for_save))
         main_layout.addWidget(self.horizontal_widget(self.show_files_checkbox))
-        main_layout.addWidget(self.horizontal_widget(self.export_button()))
+        main_layout.addWidget(self.horizontal_widget(self.export_button))
         main_layout.addWidget(self.horizontal_widget())
         self.central_widget.setLayout(main_layout)
 
@@ -123,6 +126,11 @@ class App(QMainWindow):
         self.progress_bar = self.progress_bar_widget()
         self.statusBar().addPermanentWidget(self.progress_bar)
         self.progress_bar.setHidden(True)
+
+        # Threading
+        # self.thread.finished.connect(self.after_export)
+        # self.thread.terminated.connect()
+        self.thread.output[str].connect(self.after_export)
 
         self.setCentralWidget(self.central_widget)
         center_window(self)
@@ -239,16 +247,20 @@ class App(QMainWindow):
             self.status_bar.showMessage("Aborted!")
             self.progress_bar.setHidden(True)
         else:
-            outcome = process_file(input_file, output_file)
-            self.status_bar.showMessage("Saved!")
-            self.progress_bar.setHidden(True)
-            if self.show_files_checkbox.isChecked():
-                self.show_file(self.process_name(self.save_as_name, "stories"))
-                self.show_file(self.process_name(self.save_as_name, "epics"))
-            if outcome:
-                message_box("Critical", outcome, CRITICAL).exec_()
-                self.status_bar.showMessage("Aborted!")
-                self.progress_bar.setHidden(True)
+            self.export_button.setEnabled(False)
+            self.thread.process_cards(input_file, output_file)
+
+    def after_export(self, outcome=None):
+        self.export_button.setEnabled(True)
+        self.progress_bar.setHidden(True)
+        if outcome:
+            message_box("Critical", outcome, CRITICAL).exec_()
+            self.status_bar.showMessage("Aborted!")
+            return
+        if self.show_files_checkbox.isChecked():
+            self.show_file(self.process_name(self.save_as_name, "stories"))
+            self.show_file(self.process_name(self.save_as_name, "epics"))
+        self.status_bar.showMessage("Saved!")
 
     def show_file(self, url):
         new = 2

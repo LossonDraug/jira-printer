@@ -15,6 +15,7 @@ def process_file(raw_jira_issues: str, name_to_save: str):
         cards = _read_cards(raw_jira_issues)
         _save_cards(name_to_save.replace(".html", ''), _render_cards(cards.story_cards, STORY_TEMPLATE_FILE), "stories")
         _save_cards(name_to_save.replace(".html", ''), _render_cards(cards.feature_cards, FEATURE_TEMPLATE_FILE), "epics")
+        return ""
     except ValueError:
         return "Please do not use filters while exporting Jira issues. Try again with a file containing all fields."
     except Exception as err:
