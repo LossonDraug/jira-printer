@@ -14,6 +14,8 @@ class Cards:
     feature_cards = []
 
     def __init__(self, headers: list):
+        self.story_cards = []
+        self.feature_cards = []
         for header in WANTED_HEADERS:
             self.wanted_headers[header] = headers.index(header)
         self.components_header_indices = [i for i, header in enumerate(headers) if header == COMPONENTS]
