@@ -53,7 +53,7 @@ class App(QMainWindow):
 
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
-        self.setFixedSize(self.width, self.height)
+        self.setMinimumSize(self.width, self.height)
 
         # initialize global elements
         self.central_widget = QWidget()
