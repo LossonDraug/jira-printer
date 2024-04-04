@@ -59,7 +59,7 @@ class App(QMainWindow):
         self.central_widget = QWidget()
         self.opened_file_textbox = self.read_only_textbox()
         self.names_for_save = self.read_only_multiline_textbox(3)
-        self.names_for_save.setText("Stores: \nEpics:")
+        self.names_for_save.setText("Stories: \nEpics:")
         self.status_bar = self.main_status_bar()
         self.show_files_checkbox = QCheckBox(self)
         self.show_files_checkbox.setText("Open files after export")
