@@ -15,7 +15,7 @@ Jira Cards is a straight forward program that processes a .csv full export file 
 
 ### Dependencies
 
-* Python
+* Python >3.11 https://www.python.org/
 
 ### Installing
 
