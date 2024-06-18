@@ -1,4 +1,5 @@
 import ctypes
+import os.path
 import sys
 import webbrowser
 
@@ -274,8 +275,12 @@ class App(QMainWindow):
             self.status_bar.showMessage("Aborted!")
             return
         if self.show_files_checkbox.isChecked():
-            self.show_file(self.process_name(self.save_as_name, "stories"))
-            self.show_file(self.process_name(self.save_as_name, "epics"))
+            stories_file_name = self.process_name(self.save_as_name, "stories")
+            epics_file_name = self.process_name(self.save_as_name, "epics")
+            if os.path.isfile(stories_file_name):
+                self.show_file(stories_file_name)
+            if os.path.isfile(epics_file_name):
+                self.show_file(epics_file_name)
         self.status_bar.showMessage("Saved!")
 
     def show_file(self, url):
