@@ -1,5 +1,3 @@
-import pypandoc
-
 COMPONENTS = "Components"
 
 HEADERS_ENGLISH = ["Description", "Issue Type", "Issue key", "Priority", "Summary", "Status",
@@ -34,10 +32,12 @@ class Cards:
     def add_card(self, values: list):
         card = {}
         for header, index in self.wanted_headers.items():
-            if header == "Description":
-                card[header] = pypandoc.convert_text(values[index], to="html", format="jira")
-            else:
-                card[header] = values[index]
+            # uncomment this, when pypandoc problem is solved
+            # if header == "Description":
+            #     card[header] = pypandoc.convert_text(values[index], to="html", format="jira")
+            # else:
+            #     card[header] = values[index]
+            card[header] = values[index]
         card[COMPONENTS] = [values[index] for index in self.components_header_indices if values[index] != '']
         if values[self.wanted_headers["Issue Type"]] == "Epic":
             self.feature_cards.append(card)
